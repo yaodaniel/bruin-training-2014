@@ -7,7 +7,6 @@ import time
 import random
 from fabric.api import *
 from os.path import expanduser
-from boto.ec2.connection import EC2Connection
 
 pwd = os.path.dirname(__file__)
 sys.path.append(pwd)

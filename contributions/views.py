@@ -10,4 +10,4 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         # grab our context, so we can add to it
         context = super(IndexView, self).get_context_data(**kwargs)
-        return context        
+        return context
