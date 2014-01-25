@@ -70,22 +70,25 @@ class IndexView(TemplateView):
         # You can print out variables to help debug. Check your console...
         print sectors
 
+        # We're going to generate some lists with everything in them now,
+        # then refine the data in our loop below, to save multiple
+        # database hits on each iteration.
+        all_sectors = Contribution.objects.values_list('sector', 'amount')
+        garcetti_sectors = garcetti_contributions.values_list('sector', 'amount')
+        greuel_sectors = greuel_contributions.values_list('sector', 'amount')
+
         # we'll set up an empty list here, then add to it
         # as we iterate through our sectors and compute the totals.
-
-        # BTW, this is not the most database effienent way to calculate
-        # the totals, but I think it's a lot clearer to show what's going on.
-        
         contributions_by_sector = []
+
+        # Python list comprehensions are amazing. Learn more:
+        # http://docs.python.org/2/tutorial/datastructures.html#list-comprehensions
         for sector in sectors:
             contributions_by_sector.append({
                 'name': sector,
-                'garcetti': garcetti_contributions.filter(
-                    sector=sector).aggregate(Sum('amount'))['amount__sum'],
-                'greuel': greuel_contributions.filter(
-                    sector=sector).aggregate(Sum('amount'))['amount__sum'],
-                'total': Contribution.objects.filter(
-                    sector=sector).aggregate(Sum('amount'))['amount__sum'],
+                'garcetti': sum([i[1] for i in garcetti_sectors if i[0] == sector]),
+                'greuel': sum([i[1] for i in greuel_sectors if i[0] == sector]),
+                'total': sum([i[1] for i in all_sectors if i[0] == sector]),
             })
 
         # for more info on this sort, check out:
