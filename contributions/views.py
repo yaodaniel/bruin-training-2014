@@ -1,6 +1,6 @@
 from django.db.models import Sum, Count
 from django.views.generic import TemplateView
-from contributions.models import Prop, Contribution
+from contributions.models import Contribution
 
 
 class IndexView(TemplateView):

@@ -16,7 +16,7 @@ class Committee(models.Model):
     """
     name = models.CharField(max_length=1000)
     committee_id = models.IntegerField()
-    MayoralCandidate2012 = models.ForeignKey("Candidate")
+    candidate = models.ForeignKey("Candidate")
     objects = models.Manager()
 
 
@@ -24,8 +24,8 @@ class Contribution(models.Model):
     """
     An individual contribution to a mayoral campaign
     """
-    MayoralCandidate2012 = models.ForeignKey("Candidate", null=True, blank=True)
-    MayoralCommittee2012 = models.ForeignKey("Committee", null=True, blank=True)
+    candidate = models.ForeignKey("Candidate", null=True, blank=True)
+    committee = models.ForeignKey("Committee", null=True, blank=True)
     CONTRIB_TYPE_CHOICES = (('independent', 'independent'), ('candidate', 'candidate'))
     contrib_type = models.CharField(max_length=800, choices=CONTRIB_TYPE_CHOICES)
     ELECTION_CHOICES = (('primary', 'primary'), ('general', 'general'))

@@ -73,15 +73,15 @@ class Command(BaseCommand):
                 committee, created = Committee.objects.get_or_create(
                     name=i.get('committee', ''),
                     committee_id=self.clean_amount(i.get('Committee ID', '')),
-                    Candidate=candidate,
+                    candidate=candidate,
                 )
 
                 if created:
                     logger.debug('Created commitee %s' % committee.name)
 
                 Contribution.objects.create(
-                    Committee=committee,
-                    Candidate=candidate,
+                    committee=committee,
+                    candidate=candidate,
                     contrib_type='independent',
                     city=i.get('city', ''),
                     state=self.clean_state(i.get('state', '')),
@@ -118,7 +118,7 @@ class Command(BaseCommand):
                     candidate = greuel
                 
                 Contribution.objects.create(
-                    Candidate=candidate,
+                    candidate=candidate,
                     contrib_type='candidate',
                     city=i.get('city', ''),
                     state=self.clean_state(i.get('state', '')),
@@ -154,7 +154,7 @@ class Command(BaseCommand):
                 if cand == 'greuel':
                     candidate = greuel
                 Contribution.objects.create(
-                    Candidate=candidate,
+                    candidate=candidate,
                     contrib_type='independent',
                     city=i.get('city', ''),
                     state=self.clean_state(i.get('state', '')),
