@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 data_path = os.path.join(settings.ROOT_PATH, 'contributions', 'data')
 
+
 class Command(BaseCommand):
     help = 'A management command to load in some CSV data for the LA mayoral contributions.'
 

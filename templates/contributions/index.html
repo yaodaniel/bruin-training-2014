@@ -1,72 +1,86 @@
 {% extends 'base.html' %}
 {% load humanize %}
+{% load staticfiles %}
 
 {% block extra-css %}
 <style type="text/css">
-    .bar {
-        height: 30px;
-        display:inline-block;
-        float:left;
-        margin:1px 0;
-    }
-    .oppose {
-        background: red;
-    }
-    .support {
-        background: green;
-    }
-    .bar-label {
-        display:inline-block;
-        float:left;
-        margin: 6px 0 0 6px;
-    }
-    .bar-container {
-        clear:both;
-    }
-    .clear {
-        clear:both;
-    }
+    /* 
+        You can put some CSS here!
+
+        Or, if you want to get fancy, you can edit the project.css file
+        in the templates/static/css directory.
+    */
 </style>
+<!--
+    If you want to make your own new CSS file, add a link to it here like this:
+        <link rel="stylesheet" href="{% static "css/my-fab-css.css" %}">
+ -->
 {% endblock %}
 
 {% block content %}
-<div class="container">
+    <!--
+        For some help on the Django template syntax head here:
+            Basic:      https://docs.djangoproject.com/en/1.6/topics/templates/
+            Advanced:   https://docs.djangoproject.com/en/1.6/ref/templates/api/
+        
+        For help on the built in template tags and filters:
+            https://docs.djangoproject.com/en/1.6/ref/templates/builtins/
+
+        If you want to learn more about Bootstrap, you can go here:
+            http://getbootstrap.com/
+     -->
+
     <div class="page-header">
         <h1>Contribution Data</h1>
     </div>
 
-    <h2>Money by contributor</h2>
+    <h2>Totals for each candidate</h2>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Amount</th>
+                <th>Candidate</th>
+                <th>Direct contributions</th>
+                <th>Independent contributions</th>
+                <th>Total</th>
             </tr>
         </thead>
         <tbody>
-            {% for i in contributors %}
             <tr>
-                <td>{{ i.clean_name }}</td>
-                <td>${{ i.contribs|intcomma }}</td>
+                <td>Garcetti</td>
+                <td>${{ garcetti_direct|floatformat:2|intcomma }}</td>
+                <td>${{ garcetti_independent|floatformat:2|intcomma }}</td>
+                <td>${{ garcetti_total|floatformat:2|intcomma }}</td>
+            </tr>
+            <tr>
+                <td>Greuel</td>
+                <td>${{ greuel_direct|floatformat:2|intcomma }}</td>
+                <td>${{ greuel_independent|floatformat:2|intcomma }}</td>
+                <td>${{ greuel_total|floatformat:2|intcomma }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Money by sector</h2>
+    
+    <table class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Sector</th>
+                <th>Garcetti</th>
+                <th>Greuel</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sector in contributions_by_sector %}
+            <tr>
+                <td>{{ sector.name }}</td>
+                <td>${{ sector.garcetti|floatformat:2|intcomma }}</td>
+                <td>${{ sector.greuel|floatformat:2|intcomma }}</td>
+                <td>${{ sector.total|floatformat:2|intcomma }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-
-    <h2>Money by Prop.</h2>
-    
-    {% for i in summary_data %}
-    <h4>Prop. {{ i.prop }}</h4>
-    <div class="bar-container">
-        <span class="bar support" style="width:{% widthratio i.support max_value 800 %}px"></span>
-        <span class="bar-label">${{ i.support|intcomma }}</span>
-    </div>
-    <div class="bar-container">
-        <span class="bar oppose" style="width:{% widthratio i.oppose max_value 800 %}px"></span>
-        <span class="bar-label">${{ i.oppose|intcomma }}</span>
-    </div>
-    <div class="clear"></div>
-    {% endfor %}
-</div>
 {% endblock %}
