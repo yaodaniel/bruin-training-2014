@@ -1,6 +1,6 @@
 h1. bruin-training
 
-A simple training app for Daily Bruin trainees, using campaign contribution data from the 2012 California Propositions.
+A simple training app for Daily Bruin trainees, using campaign contribution data from the 2012 L.A. Mayoral race.
 
 h2. Initial setup:
 
@@ -15,7 +15,7 @@ $ . bin/activate</code></pre>
 
 Clone down the training repo.
 
-<pre><code>$ git clone git@github.com:anthonyjpesce/bruin-training-fall-2013.git repo</code></pre>
+<pre><code>$ git clone git@github.com:YOUR_NAME_HERE/bruin-training-fall-2013.git repo</code></pre>
 
 Enter the project and install its dependencies.
 
@@ -30,14 +30,17 @@ Install SQLite
 
 Then set up the test database
 
-<pre><code>$ sqlite3 contribs.db
-> .exit</code></pre>
+<pre><code>$ touch contribs.db</code></pre>
 
 h2. Starting up the Django project
 
 Sync the database, and run our script to load in the data.
 
 <pre><code>$ python manage.py syncdb</code></pre>
+
+When Django askes you to create a superuser, go ahead and do so. Next, we'll run a custom management command to clean up and load our data.
+
+<pre><code>$ python manage.py load_data</code></pre>
 
 Turn on the test server, and see what you have!
 
